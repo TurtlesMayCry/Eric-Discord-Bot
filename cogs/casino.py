@@ -2,6 +2,7 @@ import asyncio
 import gspread
 import random
 import time
+import numpy as np
 
 from discord.ext import commands
 from oauth2client.service_account import ServiceAccountCredentials

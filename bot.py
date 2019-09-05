@@ -1,19 +1,12 @@
 import discord
 import requests
 import requests.auth
-import json
 import asyncio
-import time
-import giphy_client
-import numpy as np
-import random
-import pprint
 import os
+import youtube_dl
 
 from discord.ext import commands
 from bs4 import BeautifulSoup
-from giphy_client.rest import ApiException
-
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -30,7 +23,8 @@ bot = commands.Bot(command_prefix='~', description=description)
 bot_extentions = (
     'cogs.casino',
     'cogs.reddit',
-    'cogs.gifs'
+    'cogs.gifs',
+    'cogs.music',
 )
 
 for ext in bot_extentions:
@@ -63,7 +57,8 @@ async def bitcoin(ctx):
     url = 'https://coinmarketcap.com/currencies/bitcoin/'
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
-    mySpan = soup.find('span', class_='h2 text-semi-bold details-panel-item--price__value')
+    mySpan = soup.find(
+        'span', class_='h2 text-semi-bold details-panel-item--price__value')
     btcScrape = float(mySpan.text)
     try:
         btcFile = open('btc.txt', 'r')
@@ -88,7 +83,7 @@ async def changebtc(ctx, price: str):
 async def reload(ctx):
     for ext in bot_extentions:
         bot.reload_extension(ext)
-        print('extensions reloaded')
+        print(ext + ' reloaded')
 
 
 @bot.event
